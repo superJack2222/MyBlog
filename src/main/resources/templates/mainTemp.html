@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap3/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/blog.css">
+    <script src="/bootstrap3/js/jquery-1.11.2.min.js"></script>
+    <script src="/bootstrap3/js/bootstrap.min.js"></script>
+    <title></title>
+    <script type="text/javascript">
+        function changeClass(obj) {
+            var li = obj.parentNode; //获取父节点
+            li.className = "active";
+        }
+    </script>
+    <style type="text/css">
+        body{
+            padding-top:60px;
+            padding-bottom:40px;
+            background-color: #F5F5F5;
+            font-family: microsoft yahei;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container" style="width: 1200px">
+
+    <div class="row">
+        <!--<jsp:include page="/foreground/common/head.jsp"/>-->
+
+        <div th:replace="~{/foreground/common/head::header}"></div>
+    </div>
+
+    <div class="row" style="padding-top: 20px">
+        <div th:replace="~{/foreground/common/menu::menu}"></div>
+        <!--<jsp:include page="/foreground/common/menu.jsp"/>-->
+    </div>
+
+    <div class="row">
+        <div class="col-xs-9">
+
+            <!--<div th:replace="~{/foreground/blog/blogList::blogList}"></div>-->
+            <div th:switch="${commonPage}">
+                <div th:case="blogList">
+                    <div th:replace="/foreground/blog/blogList::blogList">   </div>
+                </div>
+                <div th:case="myAlbum">
+                    <div th:replace="/foreground/blogger/myAlbum::myAlbum">
+
+                    </div>
+                </div>
+                <div th:case="bloggerInfo">
+                    <div th:replace="/foreground/blogger/bloggerInfo::bloggerInfo">
+
+                    </div>
+                </div>
+                <div th:case="resource">
+                    <div th:replace="/foreground/blogger/resource::resource">
+
+                    </div>
+                </div>
+            </div>
+            <!--<div th:replace="/foreground/blog/blogList::blogList"></div>-->
+            <!--<jsp:include page="${commonPage}"/>-->
+            <!--<iframe th:src="${commonPage}"></iframe>-->
+            <!--<div th:replace="${page}::${content}"></div>-->
+            <!--<div th:replace="${page}::${content}"></div>-->
+            <!--<div th:replace="${page}::${content}"></div>-->
+        </div>
+        <div class="col-xs-3">
+            <div th:replace="~{/foreground/blog/rightList::rightList}"></div>
+            <!--<jsp:include page="/foreground/blog/rightList.jsp"/>-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div th:replace="~{/foreground/common/footer::copy}"></div>
+        <!--<jsp:include page="/foreground/common/footer.jsp"/>-->
+    </div>
+
+</div>
+<script th:inline="javascript">
+    // window._bd_share_config = {
+    //     "common" : {
+    //         "bdSnsKey" : {},
+    //         "bdText" : "",
+    //         "bdMini" : "2",
+    //         "bdMiniList" : false,
+    //         "bdPic" : "",
+    //         "bdStyle" : "0",
+    //         "bdSize" : "32"
+    //     },
+    //     "share" : {},
+    //     "image" : {
+    //         "viewList" : [ "weixin", "tsina", "qzone", "tieba", "renren",
+    //             "linkedin" ],
+    //         "viewText" : "分享到：",
+    //         "viewSize" : "24"
+    //     },
+    //     "selectShare" : {
+    //         "bdContainerClass" : null,
+    //         "bdSelectMiniList" : [ "weixin", "tsina", "qzone", "tieba",
+    //             "renren", "linkedin" ]
+    //     }
+    // };
+    // with (document)
+    //     0[(getElementsByTagName('head')[0] || body)
+    //         .appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='
+    //         + ~(-new Date() / 36e5)];
+// window.onload=function (ev) {
+//
+//     var currentPage=[[${commonPage}]];
+//     var html='<iframe src="'+currentPage+'"'+' />';
+//     window.document.getElementsByClassName('col-xs-9')[0].innerHTML=html;
+// }
+
+
+</script>
+
+
+
+</body>
+</html>

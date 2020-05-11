@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="rightList" >
+
+    <div class="data_list blog_info">
+
+    </div>
+
+    <div class="data_list">
+        <div class="data_list_title">
+            <img
+                    src="/images/byType_icon.png" />
+            文章分类
+        </div>
+        <div class="datas articleData">
+            <ul>
+
+                    <!--<li><span> <a-->
+                            <!--href="/index.html?typeId=${blogType.id }">${blogType.typeName }（${blogType.blogCount }）-->
+					<!--</a></span></li>-->
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="data_list">
+        <div class="data_list_title">
+            <img
+                    src="/images/byDate_icon.png" />
+            文章存档
+        </div>
+        <div class="datas blogList">
+            <!--<ul th:each="blog :${blogTimeList}">-->
+
+                    <!--<li><span> <a-->
+                            <!--href="/index.html?releaseDateStr=${blog.releaseDateStr }">${blog.releaseDateStr }（${blog.blogCount }）-->
+					<!--</a></span></li>-->
+
+            <!--</ul>-->
+        </div>
+    </div>
+
+    <div class="data_list">
+        <div class="data_list_title">
+            <img
+                    src="/images/link_icon.png" />
+            友情链接
+        </div>
+        <div class="datas linkdata">
+            <ul>
+
+
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="data_list">list_icon
+        <div class="data_list_title">
+            <img
+                    src="/images/comment_icon.png" />
+            分享到
+        </div>
+        <div class="datas">
+            <ul>
+                <div style="text-align:left;padding-top:20px;">
+                    <div class="bdsharebuttonbox">
+                        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                        <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                        <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+                        <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                        <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                        <a href="#" class="bds_more" data-cmd="more"></a>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+
+    <script src="/js/template.js" ></script>
+    <script type="text/html" id="tbBlog">
+        <div class="data_list_title">
+            <img src="/images/user_icon.png" />
+            博主信息
+        </div>
+        <div class="user_image">
+            <img src="/userImages/{{model.username}}.jpg" />
+        </div>
+        <div class="nickName"><strong><font style="color: #EE6A50" >昵称：{{model.nickname}}</font></strong></div>
+        <!--<div class="visitNum">访问量：6666</div> -->
+        <div class="userSign">『<strong><font style="color: #EE6A50" ></font></strong>』</div>
+    </script>
+
+    <script type="text/html" id="tbArticle">
+        <li><span> <a
+                href="/index.html?typeId={{model.id }}">{{model.typeName}}（{{0 }})
+					</a></span></li>
+    </script>
+
+    <script type="text/html" id="tbLink">
+        <li><span><a href="{{model.linkUrl}}" target="_blank">{{model.linkName}}</a></span></li>
+    </script>
+    <script type="text/html" id="tbcundang">
+        <li><span> <a
+        href="/index.html?releaseDateStr={{model.releaseDate }}">{{model.releaseDate}} （{{model.blogCount} }）
+        </a></span></li>
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // alert("ssssss");
+            $.getJSON("/getRightList","",function (data) {
+                // console.log(data);
+                if (data.code != 0) {
+                    return;
+                }
+
+                var linkList= data.data.linkList;
+                var blog=data.data.blogger;
+                var blogTypes=data.data.blogTypes;
+                var blogList=data.data.blogList;
+                // console.log(blogTypes);
+                var  blogInfohtml=template("tbBlog",{model:blog});
+                $(".blog_info").html(blogInfohtml);
+
+                if (blogTypes&&blogTypes.length>0){
+                    $.each(blogTypes,function (i,v) {
+                        console.log(v);
+                        var blogTypeHtml=template("tbArticle",{model:v});
+                        $('.articleData').find("ul").append(blogTypeHtml);
+                    })
+                }
+                if (blogList&&blogList.length>0){
+                    $.each(blogList,function (i,v) {
+                        var date=new Date(v.releaseDate*1000);
+                        v.releaseDate=date;
+                        var blogListHtml=template("tbcundang",{model:v});
+                        $('.blogList').find("ul").append(blogListHtml);
+                    })
+
+                }
+                if (linkList&&linkList.length>0){
+
+                    $.each(linkList,function (i,v) {
+                        var tbLinkHtml=template("tbLink",{model:v});
+                        $('.linkdata').find("ul").append(tbLinkHtml);
+                    })
+                }
+            })
+        })
+    </script>
+</div>
